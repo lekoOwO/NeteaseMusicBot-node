@@ -61,7 +61,7 @@ bot.onText(/(?:^(\d+)|song\/(\d+)\/|song\?id=(\d+))(?:.*?\.)?(?:(\d+))?/, (msg, 
                 parseArtistMD(song.song.artist),
                 songUrl);
 
-            let logText = words.logSearch.format(name, bitrate.slice(0,-3), artists, songTitle);
+            let logText = words.logSearch.format(name, bitrate.slice(0,-3), songArtists, songTitle);
             botLog(logText)
             
             bot.sendMessage(chatId, words.downloadInit, {reply_to_message_id: msg.message_id})
