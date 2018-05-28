@@ -1,0 +1,11 @@
+{
+    "start": "歡迎使用網易雲音樂解析 bot!",
+    "help": "用法:\n`音樂網址或ID [.音質]`",
+    "logStart": "{} 戳了窩一下 OAO",
+    "logHelp": "{} 問ㄌ偶怎麼用",
+    "logSearch": "{} 查詢了 {}kbps 的 {}",
+    "songText": "曲名: [{}]({})\n歌手: {}\n\n[解析連結]({})",
+    "downloadInit": "下載中...",
+    "downloading": "下載中... {}\n速度: {} ({} / {})\nETA: {}",
+    "secs": "{} 秒"
+}

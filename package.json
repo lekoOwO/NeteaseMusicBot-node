@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+        "node-telegram-bot-api": "*",
+        "request-progress": "*",
+        "request": "*",
+        "request-promise": "*",
+        "string-format": "*"
+    }
+}
