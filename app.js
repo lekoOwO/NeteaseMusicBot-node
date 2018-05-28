@@ -77,12 +77,13 @@ bot.onText(/(?:^(\d+)|song\/(\d+)\/|song\?id=(\d+))(?:.*?\.)?(?:(\d+))?/, (msg, 
                                     Math.floor(state.size.total / 1000).toString(),
                                     words.secs.format(Math.floor(state.time.remaining))), {chat_id: sentMsg.chat.id, message_id: sentMsg.message_id})
                             })
-                            .on('end', () => bot.deleteMessage(sentMsg.chat.id, sentMsg.message_id)),
+                            .on('end', () => bot.editMessageText(words.uploading, {chat_id: sentMsg.chat.id, message_id: sentMsg.message_id})),
                         {caption: songText, parse_mode: 'Markdown', title: songTitle, performer: songArtists, reply_to_message_id: msg.message_id})
+                        .then(sentMusic => bot.deleteMessage(sentMsg.chat.id, sentMsg.message_id))
                     })
         })
-        .catch(function (err) {
-            botLog(err.toString())
+        .catch(err => {
+            botLog(words.errorLog.format(name, err.toString()));
             bot.sendMessage(chatId, err.toString(), {reply_to_message_id: msg.message_id});
         });
 });

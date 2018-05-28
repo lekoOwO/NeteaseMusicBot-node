@@ -7,5 +7,7 @@
     "songText": "曲名: [{}]({})\n歌手: {}\n\n[解析連結]({})",
     "downloadInit": "下載中...",
     "downloading": "下載中... {}\n速度: {} ({} / {})\nETA: {}",
-    "secs": "{} 秒"
+    "uploading": "上傳中...",
+    "secs": "{} 秒",
+    "errorLog": "用戶: {}\n錯誤: {}"
 }
