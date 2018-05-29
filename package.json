@@ -4,6 +4,9 @@
         "request-progress": "*",
         "request": "*",
         "request-promise": "*",
-        "string-format": "*"
+        "string-format": "*",
+        "dotenv": "*",
+        "redis": "latest",
+        "bluebird": "*"
     }
 }

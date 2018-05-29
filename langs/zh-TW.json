@@ -1,13 +1,17 @@
 {
     "start": "歡迎使用網易雲音樂解析 bot!",
-    "help": "用法:\n``音樂網址或ID [.音質]``",
+    "help": "用法:\n`音樂網址或ID [.音質]`",
     "logStart": "{} 戳了窩一下 OAO",
     "logHelp": "{} 問ㄌ偶怎麼用",
-    "logSearch": "{} 查詢了 {}kbps 的 {} - {}",
+    "logSearch": "{} 查詢了 {}kbps 的 [{} - {}]({})",
     "songText": "曲名: [{}]({})\n歌手: {}\n\n[解析連結]({})",
     "downloadInit": "下載中...",
     "downloading": "下載中... {}\n速度: {} ({} / {})\nETA: {}",
     "uploading": "上傳中...",
     "secs": "{} 秒",
-    "errorLog": "用戶: {}\n錯誤: {}"
+    "errorLog": "用戶: {}\n錯誤: {}",
+    "error": "發生錯誤，請聯絡[管理員](tg://user?id={})",
+    "processErrorLog": "程式: {}\n錯誤: {}",
+    "logUnexpectedInput": "用戶: {}\n輸入: {}",
+    "unexpectedInput": "格式錯誤，請重新輸入!"
 }
