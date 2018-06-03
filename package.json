@@ -7,6 +7,8 @@
         "string-format": "*",
         "dotenv": "*",
         "redis": "latest",
-        "bluebird": "*"
+        "bluebird": "*",
+        "telegram-keyboard-wrapper": "*",
+        "generate-safe-id": "*"
     }
 }
