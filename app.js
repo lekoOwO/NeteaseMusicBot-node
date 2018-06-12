@@ -6,6 +6,8 @@ const rp = require('request-promise');
 const Promise = require("bluebird");
 const InlineKeyboard = require("telegram-keyboard-wrapper");
 const generateSafeId = require('generate-safe-id');
+const express = process.env.WEBHOOK_HOST ? require('express') : undefined;
+const bodyParser = process.env.WEBHOOK_HOST ? require('body-parser') : undefined;
 
 const format = require('string-format')
 format.extend(String.prototype, {})
@@ -24,7 +26,22 @@ const adminTelegramId = process.env.ADMIN_TELEGRAM_ID;
 const regex = /(?:^(\d+)|song\/(\d+)\/|song\?id=(\d+))(?:.*?\.)?(?:(\d+))?/;
 
 const words = JSON.parse(fs.readFileSync('./langs/' + lang + '.json'));
-const bot = new TelegramBot(token, {polling: true, onlyFirstMatch: true});
+const cert = {
+    cert: fs.existsSync('/certs/cert.crt') ? '/certs/cert.crt' : undefined,
+    key: fs.existsSync('/certs/key.key') ? '/certs/key.key' : undefined
+}
+const bot = new TelegramBot(token, {
+    polling: true, 
+    onlyFirstMatch: true, 
+    webhook: process.env.WEBHOOK_HOST ? {
+        port: 443,
+        key: cert.key,
+        cert: cert.cert,
+        host: process.env.WEBHOOK_IP
+    } : undefined
+    });
+
+const app = process.env.WEBHOOK_HOST ? express() : undefined;
 
 const botLog = msg => bot.sendMessage(logChannelId, msg, {parse_mode: 'Markdown', disable_web_page_preview: true});
 const parseArtistMD = artists => artists.reduce((prevText, artist) => '{}[{}]({}) / '.format(prevText, artist.name, 'https://music.163.com/#/artist?id=' + artist.id), '').slice(0,-3);
@@ -39,6 +56,20 @@ if (cacheOn){
     redis.on('error', err => {
         console.log(err);
         botLog(words.processErrorLog.format('Redis', err.toString()));
+    });
+}
+
+if (process.env.WEBHOOK_HOST) {
+    app.use(bodyParser.json());
+    app.post(`/bot${token}`, (req, res) => {
+        bot.processUpdate(req.body);
+        res.sendStatus(200);
+      });
+    app.listen(443, () => {
+        console.log(`Express server is listening on 443`);
+        bot.setWebHook(`${process.env.WEBHOOK_HOST}/bot${token}`, {
+            certificate: cert.cert
+            })
     });
 }
 

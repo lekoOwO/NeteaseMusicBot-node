@@ -9,6 +9,8 @@
         "redis": "latest",
         "bluebird": "*",
         "telegram-keyboard-wrapper": "*",
-        "generate-safe-id": "*"
+        "generate-safe-id": "*",
+        "express": "*",
+        "body-parser": "*"
     }
 }
