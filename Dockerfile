@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:9-alpine
 
 ENV LANG zh-TW
 ENV ADMIN_TELEGRAM_ID YOUR_TELEGRAM_ID
