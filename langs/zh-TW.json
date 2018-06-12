@@ -15,5 +15,6 @@
     "error": "錯誤",
     "processErrorLog": "程式: {}\n錯誤: {}",
     "logUnexpectedInput": "用戶: {}\n輸入: {}",
-    "unexpectedInput": "格式錯誤，請重新輸入!"
+    "unexpectedInput": "格式錯誤，請重新輸入!",
+    "HelloWorld": "網易雲音樂 Bot 已啟動"
 }

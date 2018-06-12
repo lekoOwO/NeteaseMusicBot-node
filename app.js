@@ -245,4 +245,6 @@ bot.on("inline_query", query => {
     })
 })
 
+botLog(words.HelloWorld);
+
 
