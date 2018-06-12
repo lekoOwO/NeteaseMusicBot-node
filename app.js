@@ -67,9 +67,9 @@ if (process.env.WEBHOOK_HOST) {
       });
     app.listen(443, () => {
         console.log(`Express server is listening on 443`);
-        bot.setWebHook(`${process.env.WEBHOOK_HOST}/bot${token}`, {
+        bot.setWebHook(`${process.env.WEBHOOK_HOST}/bot${token}`, cert.cert ? {
             certificate: cert.cert
-            })
+            } : undefined)
     });
 }
 
