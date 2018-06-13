@@ -1,3 +1,4 @@
+const bool = require('boolean');
 if (!bool(process.env.DOCKER)) {
     const envConfig = require('dotenv').parse(fs.readFileSync('.env'))
     for (let k in envConfig) process.env[k] = envConfig[k]
@@ -13,7 +14,6 @@ const InlineKeyboard = require("telegram-keyboard-wrapper");
 const generateSafeId = require('generate-safe-id');
 const express = process.env.WEBHOOK_HOST ? require('express') : undefined;
 const bodyParser = process.env.WEBHOOK_HOST ? require('body-parser') : undefined;
-const bool = require('boolean');
 
 const format = require('string-format')
 format.extend(String.prototype, {})
