@@ -1,4 +1,6 @@
 const bool = require('boolean');
+const fs = require('fs');
+
 if (!bool(process.env.DOCKER)) {
     const envConfig = require('dotenv').parse(fs.readFileSync('.env'))
     for (let k in envConfig) process.env[k] = envConfig[k]
@@ -7,7 +9,6 @@ if (!bool(process.env.DOCKER)) {
 const TelegramBot = require('node-telegram-bot-api');
 const request = require('request');
 const progress = require('request-progress');
-const fs = require('fs');
 const rp = require('request-promise');
 const Promise = require("bluebird");
 const InlineKeyboard = require("telegram-keyboard-wrapper");
