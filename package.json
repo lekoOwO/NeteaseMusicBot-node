@@ -11,6 +11,7 @@
         "telegram-keyboard-wrapper": "*",
         "generate-safe-id": "*",
         "express": "*",
-        "body-parser": "*"
+        "body-parser": "*",
+        "boolean": "*"
     }
 }

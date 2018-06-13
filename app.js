@@ -8,27 +8,28 @@ const InlineKeyboard = require("telegram-keyboard-wrapper");
 const generateSafeId = require('generate-safe-id');
 const express = process.env.WEBHOOK_HOST ? require('express') : undefined;
 const bodyParser = process.env.WEBHOOK_HOST ? require('body-parser') : undefined;
+const bool = require('boolean');
 
 const format = require('string-format')
 format.extend(String.prototype, {})
 
-if (!process.env.DOCKER) {
+if (!bool(process.env.DOCKER)) {
     const envConfig = require('dotenv').parse(fs.readFileSync('.env'))
     for (let k in envConfig) process.env[k] = envConfig[k]
 }
-const lang = process.env.LANG;
+const lang = fs.existsSync('./langs/' + (process.env.LANG || "zh-TW") + '.json') ? process.env.LANG || "zh-TW" : "zh-TW";
 const token = process.env.TOKEN;
 const logChannelId = process.env.LOG_CHANNEL_ID;
 const cloudMusicApi = {host: process.env.API_HOST, api: process.env.API};
-const defaultBitrate = process.env.DEFAULT_BITRATE;
-const cacheOn = process.env.CACHE == 'true';
+const defaultBitrate = process.env.DEFAULT_BITRATE || '320';
+const cacheOn = bool(process.env.CACHE);
 const adminTelegramId = process.env.ADMIN_TELEGRAM_ID;
 const regex = /(?:^(\d+)|song\/(\d+)\/|song\?id=(\d+))(?:.*?\.)?(?:(\d+))?/;
 
 const words = JSON.parse(fs.readFileSync('./langs/' + lang + '.json'));
 const cert = {
-    cert: fs.existsSync('/certs/cert.crt') ? '/certs/cert.crt' : undefined,
-    key: fs.existsSync('/certs/key.key') ? '/certs/key.key' : undefined
+    cert: fs.existsSync(process.env.CERT || '/certs/cert.crt') ? process.env.CERT || '/certs/cert.crt' : undefined,
+    key: fs.existsSync(process.env.KEY || '/certs/key.key') ? process.env.KEY || '/certs/key.key' : undefined
 }
 const bot = new TelegramBot(token, {
     polling: true, 
