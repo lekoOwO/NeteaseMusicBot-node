@@ -35,7 +35,7 @@ const bot = new TelegramBot(token, {
     polling: true, 
     onlyFirstMatch: true, 
     webhook: process.env.WEBHOOK_HOST ? {
-        port: 443,
+        port: parseInt(process.env.WEBHOOK_PORT) || 443,
         key: cert.key,
         cert: cert.cert,
         host: process.env.WEBHOOK_IP
@@ -66,8 +66,8 @@ if (process.env.WEBHOOK_HOST) {
         bot.processUpdate(req.body);
         res.sendStatus(200);
       });
-    app.listen(443, () => {
-        console.log(`Express server is listening on 443`);
+    app.listen(parseInt(process.env.WEBHOOK_PORT) || 443, () => {
+        botLog('Express server is listening on {}'.format(parseInt(process.env.WEBHOOK_PORT) || 443));
         bot.setWebHook(`${process.env.WEBHOOK_HOST}/bot${token}`, cert.cert ? {
             certificate: cert.cert
             } : undefined)
