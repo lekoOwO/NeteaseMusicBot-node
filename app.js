@@ -1,3 +1,8 @@
+if (!bool(process.env.DOCKER)) {
+    const envConfig = require('dotenv').parse(fs.readFileSync('.env'))
+    for (let k in envConfig) process.env[k] = envConfig[k]
+}
+
 const TelegramBot = require('node-telegram-bot-api');
 const request = require('request');
 const progress = require('request-progress');
@@ -13,10 +18,6 @@ const bool = require('boolean');
 const format = require('string-format')
 format.extend(String.prototype, {})
 
-if (!bool(process.env.DOCKER)) {
-    const envConfig = require('dotenv').parse(fs.readFileSync('.env'))
-    for (let k in envConfig) process.env[k] = envConfig[k]
-}
 const lang = fs.existsSync('./langs/' + (process.env.LANG || "zh-TW") + '.json') ? process.env.LANG || "zh-TW" : "zh-TW";
 const token = process.env.TOKEN;
 const logChannelId = process.env.LOG_CHANNEL_ID;
