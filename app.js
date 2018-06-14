@@ -111,30 +111,10 @@ function getMusicInfo(songId, bitrate, name, cb){
         })
 }
 
-bot.onText(/^\/start$/, (msg, _) => {
+function response(msg, songId, bitrate = defaultBitrate) {
     let chatId = msg.chat.id;
     let name = getNameMD(msg.chat);
-    let logText = words.logStart.format(name);
-
-    botLog(logText)
-    bot.sendMessage(chatId, words.start, {parse_mode: 'Markdown'});
-});
-
-bot.onText(/\/help/, (msg, _) => {
-    let chatId = msg.chat.id;
-    let name = getNameMD(msg.chat);
-    let logText = words.logHelp.format(name);
-
-    botLog(logText)
-    bot.sendMessage(chatId, words.help, {parse_mode: 'Markdown'});
-});
-
-bot.onText(regex, (msg, match) => {
-    let chatId = msg.chat.id;
-    let name = getNameMD(msg.chat);
-
-    let songId = match[1] || match[2] || match[3];
-    let bitrate = (match[4] || defaultBitrate) + '000';
+    bitrate += '000';
 
     let messageId = msg.message_id;
 
@@ -189,16 +169,59 @@ bot.onText(regex, (msg, match) => {
             botLog(words.errorLog.format(name, err.toString()));
             bot.sendMessage(chatId, words.errorAccurred.format(adminTelegramId), {reply_to_message_id: messageId, parse_mode: 'Markdown'});
         });
+}
+
+bot.onText(/^\/start$/, (msg, _) => {
+    let chatId = msg.chat.id;
+    let name = getNameMD(msg.chat);
+    let logText = words.logStart.format(name);
+
+    botLog(logText)
+    bot.sendMessage(chatId, words.start, {parse_mode: 'Markdown'});
+});
+
+bot.onText(/\/help/, (msg, _) => {
+    let chatId = msg.chat.id;
+    let name = getNameMD(msg.chat);
+    let logText = words.logHelp.format(name);
+
+    botLog(logText)
+    bot.sendMessage(chatId, words.help, {parse_mode: 'Markdown'});
+});
+
+bot.onText(regex, (msg, match) => {
+    let songId = match[1] || match[2] || match[3];
+    let bitrate = match[4] || defaultBitrate;
+    
+    response(msg, songId, bitrate)
 });
 
 bot.onText(/[^]*/, (msg, text) => {
-    let chatId = msg.chat.id;
-    let name = getNameMD(msg.chat);
+    let messageEntity = msg.entities || msg.caption_entities;
+    var isResponsed = false;
 
-    let logText = words.logUnexpectedInput.format(name, text)
+    if (messageEntity) {
+        for (i of messageEntity){
+            if (i.url){
+                if(i.url.includes('music.163.com') != ''){
+                    let match = i.url.match(regex);
+                    let songId = match[1] || match[2] || match[3];
+                    let bitrate = match[4] || defaultBitrate;
 
-    botLog(logText);
-    bot.sendMessage(chatId, words.unexpectedInput, {parse_mode: 'Markdown'});
+                    response(msg, songId, bitrate)
+                    isResponsed = true;
+                }
+            }
+        }
+    }
+
+    if(!isResponsed) {
+        let chatId = msg.chat.id;
+        let name = getNameMD(msg.chat);
+        let logText = words.logUnexpectedInput.format(name, text)
+        botLog(logText);
+        bot.sendMessage(chatId, words.unexpectedInput, {parse_mode: 'Markdown'});
+    }
 })
 
 bot.on("inline_query", query => {
@@ -247,6 +270,14 @@ bot.on("inline_query", query => {
             }])
     })
 })
+
+bot.on('polling_error', (error) => {
+    botLog(error.toString());  // => 'EFATAL'
+  });
+
+bot.on('webhook_error', (error) => {
+    botLog(error.toString());  // => 'EPARSE'
+});
 
 botLog(words.HelloWorld);
 
