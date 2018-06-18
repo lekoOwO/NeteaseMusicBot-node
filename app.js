@@ -55,7 +55,7 @@ const getRedisKey = (songId, bitrate) => songId + '.' + bitrate;
 if (cacheOn){
     var rediz = require('redis');
     Promise.promisifyAll(rediz);
-    var redis = rediz.createClient({ "host": process.env.REDIS_HOST, "port": process.env.REDIS_PORT});
+    var redis = rediz.createClient({ "host": process.env.REDIS_HOST, "port": process.env.REDIS_PORT, "password": process.env.REDIS_PASSWORD});
     redis.on('error', err => {
         console.log(err);
         botLog(words.processErrorLog.format('Redis', err.toString()));
