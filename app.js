@@ -89,7 +89,8 @@ function getMusicInfo(songId, bitrate, name, cb){
             let songArtists = parseArtists(song.song.artist);
             let songOriginalUrl = "https://music.163.com/#/song?id=" + songId;
             let albumUrl = "https://music.163.com/#/album?id=" + song.song.album.id;
-            let songText = words.songText.format(songTitle, songOriginalUrl, parseArtistMD(song.song.artist), song.song.album.name, albumUrl, songParsedUrl);
+            let playerUrl = `${cloudMusicApi.host}/?music_id=${songId}&bitrate=${bitrate.slice(0,3)}`
+            let songText = words.songText.format(songTitle, songOriginalUrl, parseArtistMD(song.song.artist), song.song.album.name, albumUrl, songParsedUrl, playerUrl);
             let logText = words.logSearch.format(name, bitrate.slice(0,-3), songArtists, songTitle, songOriginalUrl);            
 
             cb(null, {
@@ -130,7 +131,8 @@ function response(msg, songId, bitrate = defaultBitrate) {
             let songArtists = parseArtists(song.song.artist);
             let songOriginalUrl = "https://music.163.com/#/song?id=" + songId;
             let albumUrl = "https://music.163.com/#/album?id=" + song.song.album.id;
-            let songText = words.songText.format(songTitle, songOriginalUrl, parseArtistMD(song.song.artist), song.song.album.name, albumUrl, songParsedUrl);
+            let playerUrl = `${cloudMusicApi.host}/?music_id=${songId}&bitrate=${bitrate.slice(0,3)}`
+            let songText = words.songText.format(songTitle, songOriginalUrl, parseArtistMD(song.song.artist), song.song.album.name, albumUrl, songParsedUrl, playerUrl);
             let logText = words.logSearch.format(name, bitrate.slice(0,-3), songArtists, songTitle, songOriginalUrl);
             botLog(logText);
 
