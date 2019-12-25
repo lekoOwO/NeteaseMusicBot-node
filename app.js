@@ -1,4 +1,4 @@
-const bool = require('boolean');
+const bool = require('boolean').boolean;
 const fs = require('fs');
 
 if (!bool(process.env.DOCKER)) {
@@ -148,7 +148,12 @@ function response(msg, songId, bitrate = defaultBitrate) {
                     .then(sentMsg => {
                         bot.sendAudio(
                             chatId,
-                            progress(request(songParsedUrl), {})
+                            progress(request({
+								url: songParsedUrl,
+								headers: {
+									'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
+								}
+							}), {})
                                 .on('progress', state => {
                                     bot.editMessageText(words.downloading.format(
                                         Math.floor(state.percent * 100) + '%', 
