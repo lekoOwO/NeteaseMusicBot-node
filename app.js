@@ -157,8 +157,10 @@ function response(msg, songId, bitrate = defaultBitrate) {
                             progress(request({
                                 url: songParsedUrl,
                                 headers: {
-                                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
-                                }
+                                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
+                                    Referer: "https://music.163.com"
+                                },
+                                removeRefererHeader: true
                             }), {})
                                 .on('progress', state => {
                                     bot.editMessageText(words.downloading.format(
@@ -293,6 +295,3 @@ bot.on('webhook_error', (error) => {
 });
 
 botLog(words.HelloWorld);
-
-
-
